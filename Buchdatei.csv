@@ -1,0 +1,33 @@
+Buchnummer;Titel;Bestand;Preis
+AA12345674;Buchtitel;15;12.34
+MAA2234574;Mathematik III;15;12.43
+AAA1234568;Harry Potter I;12;19.89
+AAA1234568;Harry Potter I;13;19.89
+AAB1234568;Harry Potter I;1;19.89
+AAC1234569;Star Wars;34;23.45
+AAA4534570;Java;55;12.37
+AAA1234571;The C Programming Language;12;12.38
+ABA5234572;C#;66;12.39
+AAA1334573;XNA Programmierung;3;21.5
+MAA1234574;Mathematik I;15;12.41
+CAA1234575;Mathematik II;-23;15.65
+AAA4534570;Java;25;12.39
+AAA123457;Physik;15;16.00
+AAA1234578;Deutsch;15;12.45
+AAA1234579;Deutsch für Fortgeschrittene;15;Fehler
+AAA423D580;Rechnungswesen;15;23.5
+BHA4234581;Sakrileg;15;34.3
+AAA6234582;Iluminati;15;12.6
+POA234583;PM Magazin;15;12.50
+AIU1234584;Welt der Wissenschaft;15;12.51
+AAA1234568;Harry Potter I;12;19.39
+AAA1234573;XNA Programmierung;13;21.5
+AAA1334573;Programmierung;3;21.5
+ABC1928374;Java ist auch eine Insel;13;19.9
+MAA2234574;Mathematik III;15;12.43;noch etwas
+AAA1234578;Deutsch;5;12.45
+BHA4234581;Sakrileg;-5;34.3
+MAA1234574;Mathematik IV;15.4;12.41
+AGA1234998;Harry Potter III;10;19.89
+AAA1234571;Programming in JAVA;2;17.38
+AAC1234570;Star Wars II;24;21.45

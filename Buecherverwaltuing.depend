@@ -1,0 +1,94 @@
+# depslib dependency file v1.0
+1540395283 source:c:\users\niklas\documents\buecherverwaltuing\main.c
+	"bookfunc.h"
+
+1540395377 c:\users\niklas\documents\buecherverwaltuing\bookfunc.h
+	<stdio.h>
+	<stdlib.h>
+	<conio.h>
+	<windows.h>
+	<strings.h>
+	<unistd.h>
+
+1540408959 source:c:\users\niklas\desktop\eeee\main.c
+	"bookfunc.h"
+
+1540408959 c:\users\niklas\desktop\eeee\bookfunc.h
+	<stdio.h>
+	<stdlib.h>
+	<conio.h>
+	<windows.h>
+	<strings.h>
+	<unistd.h>
+
+1540399986 source:c:\users\niklas\desktop\eeee\user-interface.c
+	"bookfunc.h"
+
+1540413395 source:c:\users\niklas\desktop\eeee\bookfuncs.c
+	"bookfunc.h"
+
+1541157685 source:h:\eeee\main.c
+	"bookfunc.h"
+
+1540405359 h:\eeee\bookfunc.h
+	<stdio.h>
+	<stdlib.h>
+	<conio.h>
+	<windows.h>
+	<strings.h>
+	<unistd.h>
+
+1541157685 source:c:\users\niklashplaptop\desktop\eeee\main.c
+	"bookfunc.h"
+
+1540401759 c:\users\niklashplaptop\desktop\eeee\bookfunc.h
+	<stdio.h>
+	<stdlib.h>
+	<conio.h>
+	<windows.h>
+	<strings.h>
+	<unistd.h>
+
+1541158831 source:c:\users\niklashplaptop\desktop\eeee\bookfuncs.c
+	"bookfunc.h"
+
+1541400715 source:c:\users\dell\desktop\eeee\bookfuncs.c
+	"bookfunc.h"
+
+1540405359 c:\users\dell\desktop\eeee\bookfunc.h
+	<stdio.h>
+	<stdlib.h>
+	<conio.h>
+	<windows.h>
+	<strings.h>
+	<unistd.h>
+
+1541248775 source:c:\users\dell\desktop\eeee\main.c
+	"bookfunc.h"
+
+1542460547 source:d:\share\eeee\main.c
+	"bookfunc.h"
+
+1542416903 d:\share\eeee\bookfunc.h
+	<stdio.h>
+	<stdlib.h>
+	<conio.h>
+	<ctype.h>
+	<windows.h>
+	<strings.h>
+	<unistd.h>
+
+1542463535 source:d:\share\eeee\bookfuncs.c
+	"bookfunc.h"
+
+1541248775 source:z:\eeee\main.c
+	"bookfunc.h"
+
+1540405359 z:\eeee\bookfunc.h
+	<stdio.h>
+	<stdlib.h>
+	<conio.h>
+	<windows.h>
+	<strings.h>
+	<unistd.h>
+
