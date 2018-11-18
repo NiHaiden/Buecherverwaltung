@@ -51,9 +51,9 @@ void toCSVText(const buch_t* buch, char *csvText);
 int cmpBuchNr(const void *a, const void *b);
 int cmpPreis(const void *a, const void *b);
 int cmpTitel(const void *a, const void *b);
-int menue();
-void freeData(buch_t *buecher, int anzahl);
-void help();
-void printBuchData(buch_t *buch);
-
+int menue();   ///Funktion, welche das Menue anzeigt und gewaehlten Menuepunkt zurueckliefert
+void freeData(buch_t *buecher, int anzahl); ///Funktion zum Freigeben aller dynamisch angeforderten Daten
+void help(); ///Funktion zum Anzeigen der Hilfe
+void printBuchData(buch_t *buch); ///Funktion zum Ausgeben der Daten in Tabellenform
+void printBuchList(buch_t *buch); ///Funktion zum Ausgeben der Daten in Listenform
 #endif // BOOKFUNC_H_INCLUDED

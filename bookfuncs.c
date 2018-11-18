@@ -1,26 +1,104 @@
 #include "bookfunc.h"
+int liesInt()
+{
+    char eingabe[4096];
+    int ok;
+    char dummy;
+    int zahl;
 
+    do
+    {
+        ok = sscanf(gets(eingabe), "%d%c", &zahl, &dummy);
+        if(ok != 1)
+            return 0;
 
+    }
+    while(ok != 1);
+    return zahl;
+}
+int filtermenue()
+{
+    char user;
+    char dummy;
+    char userpreis;
+    int ok = 0;
+
+    do
+    {
+        printf("\n\n\tFiltern");
+        printf("\n\t=========");
+        printf("\n\tNach was moechten Sie filtern?");
+        printf("\n\t(1)Preis");
+        printf("\n\t(2)Titel");
+        printf("\n\t(3)Buchnummer");
+
+        printf("\n\n\tIhre Auswahl --> ");
+        user = getch();
+
+        switch(user)
+        {
+        case '1':
+            system("cls");
+            printf("\n\n\tMoechten Sie nach mehr oder weniger angegebenem Preis filtern?");
+            printf("\n\t(1)Mehr");
+            printf("\n\t(2)Weniger");
+            printf("\n\tIhre Auswahl -->");
+
+            userpreis = getch();
+
+            switch(userpreis)
+            {
+            case '1':
+                return 1;
+                break;
+            case '2':
+                return 2;
+            }
+
+            break;
+        case '2':
+            ok = 1;
+            return 3;
+            break;
+        case '3':
+            ok = 1;
+            return 4;
+            break;
+        default:
+            system("cls");
+            fprintf(stderr, "Diese Option gibt es nicht. Bitte versuchen Sie es nochmal.");
+            Sleep(3000);
+            system("cls");
+            ok = 0;
+            break;
+        }
+
+    }
+    while(ok != 1);
+    return 0;
+}
 int menue()
 {
     char user;  ///Variable um User-Auswahl zu speichern
     int ok; ///Wie lange die Schleife laufen soll, bis alles ok ist
+    char dummy;
     system("cls");
     do
     {
         ///Ausgabe aller Optionen
-        printf("\n\tWillkommen! Bitte waehlen Sie einen der folgenden Menuepunkte aus!");
-        printf("\n\t(1)->  Neues Buch hinzufuegen");
-        printf("\n\t(2)->  Ein Buch entfernen");
-        printf("\n\t(3)->  Buchtitel aendern");
-        printf("\n\t(4)->  Nach Buechern suchen");
-        printf("\n\t(5)->  Nach bestimmten Kriterien filtern");
-        printf("\n\t(6)->  Ausgabe aller Buecher");
-        printf("\n\t(7)->  Ausgabe des gesamten Lagerwertes");
-        printf("\n\t(8)->  Ausgabe der Bestelllisten");
-        printf("\n\t(9)->  Speichern in einer neuen Datei");
-        printf("\n\t(?)->  Ausgabe der Hilfe");
-        printf("\n\t(E)->  Das Programm beenden");
+        printf("\n\n\tWillkommen! Bitte waehlen Sie einen der folgenden Menuepunkte aus!");
+        printf("\n\t===================================================================");
+        printf("\n\n\t(1) Neues Buch hinzufuegen");
+        printf("\n\t(2) Ein Buch entfernen");
+        printf("\n\t(3) Buchtitel aendern / Buch entnehmen");
+        printf("\n\t(4) Nach Buechern suchen");
+        printf("\n\t(5) Nach bestimmten Kriterien filtern");
+        printf("\n\t(6) Ausgabe aller Buecher");
+        printf("\n\t(7) Ausgabe des gesamten Lagerwertes");
+        printf("\n\t(8) Ausgabe der Bestelllisten");
+        printf("\n\t(9) Speichern in einer neuen Datei");
+        printf("\n\t(?) Ausgabe der Hilfe");
+        printf("\n\t(E) Das Programm beenden");
 
         printf("\n\n\tIhre Auswahl --> ");
         user = getch();
@@ -73,9 +151,10 @@ int menue()
             break;
         default: ///Falls ein nicht vorhandene Option ausgewaehlt wurde, wird der default Block ausgefuehrt
             system("cls");
-            printf("\n\tDiese Option gibt es nicht!");
-            Sleep(3000);
+            fprintf(stderr, "\n\tDiese Option gibt es nicht!");
+            dummy = getch();
             system("cls");
+            ok = 0;
             break;
         }
 
@@ -244,12 +323,13 @@ int erstelleNeuesBuch(char *textzeile, buch_t *buecher, int anzahlAkt)
         richtigcounter++;
     }
     ///****************************************
-    ///Ueberpruefen, ob noch
-
+    ///Ueberpruefen, ob noch mehr Dinge in String stehen
     hstr = strtok(NULL, delimiter);
+
 
     if(hstr != NULL)
         richtigcounter++;
+    ///****************************************
 
     if(richtigcounter==4)       ///Uebepruefen, ob 4 Sachen in der Zeile gestanden sind
     {
@@ -323,20 +403,115 @@ int gueltigeBuchNummer(char *text)
 
 buch_t *sucheBuch(buch_t *buecher, int n, char *suchText,int titelOderNummer)
 {
-    //    return *buchAdresse;
+    size_t i;
+    switch(titelOderNummer)
+    {
+    case 1:
+        for(i = 0; i < n; i++)
+        {
+            if(strcmp(((buecher+i)->titel),suchText)==0)
+                return (buecher+i);
+
+
+        }
+        break;
+    case 2:
+        for(i = 0; i < n; i++)
+        {
+            if(strcmp(((buecher+i)->buchNummer),suchText)==0)
+                return (buecher+i);
+
+        }
+        break;
+    }
+
+    return NULL;
 }
 
 int buchZugang(buch_t *buecher, int anzahlAkt)
 {
+   FILE *fp;
 
 }
 void buchEntnahme(buch_t *buecher, int anzahl)
 {
+    size_t i = 0;
+    int wieviele;
+    int ok;
+    int buchpos;
+    char dummy, eingabe[4096];
+    char buchnr[4096];
+    printf("\n\n\tBuchentnahme");
+    printf("\n\t==============");
+    listeBuchbestand(buecher, anzahl);
+
+    do
+    {
+        printf("\n\tWelches Buch wollen Sie entnehmen?");
+        printf("\n\tBitte geben Sie die Buchnummer ein --> ");
+        gets(buchnr);
+
+        for(i = 0; i < anzahl; i++)
+        {
+            if(strcmp((buecher+i)->buchNummer, buchnr) == 0)
+            {
+                buchpos = i;
+                ok = 1;
+            }
+            else
+            {
+                fprintf(stderr, "\n\tDas Buch konnte nicht gefunden werden.\n\tBitte wiederholen Sie ihre Eingabe!");
+                ok = 0;
+            }
+        }
+    }
+    while(ok != 1);
+
+    do
+    {
+        printf("\n\tWieviele Buecher wollen Sie entnehmen?");
+        printf("\n\tGeben Sie bitte die Anzahl ein -->");
+        ok = sscanf(gets(eingabe), "%d%c", &wieviele, &dummy);
+
+        if(ok != 1)
+            fprintf(stderr, "Eingabefehler. Bitte wiederholen Sie Ihre Eingabe.");
+
+    }
+    while(ok != 1);
+
+    if((buecher+buchpos)->bestand < wieviele)
+    {
+        fprintf(stderr, "\n\tDer Bestand darf nicht unter 0 sinken! Abbruch!");
+        return;
+    }
+
+
+    (buecher+buchpos)->bestand-=wieviele;
+    printf("\n\tDer Bestând des Buches mit der Buchnummer %s und Titel %s wurde auf %d veraendert.", (buecher+buchpos)->buchNummer,
+           (buecher+buchpos)->titel, (buecher+buchpos)->bestand);
+    return;
 
 }
 
 int buchEntfernen(buch_t *buecher, int anzahl, char *buchNummer)
 {
+    int i, j = 0;
+
+    if(gueltigeBuchNummer(buchNummer))
+    {
+        for(i = 0; i < anzahl; i++)
+        {
+            if(strcmp((buecher+i)->buchNummer, buchNummer) == 0)
+            {
+                for(j = i; j < anzahl; j++)
+                    buecher[j] = buecher[j+1]; ///Kopieren der Daten auf neue Position, damit Buch ueberschrieben wird
+
+                return 1;
+            }
+        }
+    }
+
+    return 0;
 
 }
 
@@ -352,18 +527,16 @@ void aendereTitel(buch_t *buchAdresse)
     (buchAdresse->titel) = (char*)realloc((buchAdresse->titel),strilenneu+1*sizeof(char)); ///Reallokieren des Speichers fuer neuen String
     if(!(buchAdresse->titel)) ///Wenn etwas schiefgelaufen ist, gibt er eine Fehlermeldung aus;
     {
-        printf("\n\tBeim Anfordern von Speicher fuer den Titel ist ein Fehler aufgetreten!");
+        fprintf(stderr,"\n\tBeim Anfordern von Speicher fuer den Titel ist ein Fehler aufgetreten!");
         return;
     }
     strcpy(buchAdresse->titel, eingabe);
-
-
+    return;
 }
 
 void listeBuchbestand(buch_t *buecher, int anzahl)
 {
     size_t i;
-    system("cls");
     puts("|  Buch-Nr.    |            Titel            |       Bestand       |       Preis      |");
     puts("=======================================================================================");
     for(i = 0; i < anzahl; i++)
@@ -384,7 +557,15 @@ void listeBuchbestand(buch_t *buecher, int anzahl)
 ///********************************************
 void printBuchData(buch_t *buch)
 {
-    printf("%10s         |       %19s              |        %d           |        %.2lf        |\n",(buch->buchNummer), (buch->titel), (buch->bestand), (buch->preis));
+    printf("\t%10s|       %25s          |        %d           |        %.2lf        |\n",(buch->buchNummer), (buch->titel), (buch->bestand), (buch->preis));
+}
+
+void printBuchList(buch_t *buch)
+{
+    printf("\n\tBuch-Nummer: %s", buch->buchNummer);
+    printf("\n\tTitel:       %s", buch->titel);
+    printf("\n\tBestand:     %d", buch->bestand);
+    printf("\n\tPreis:       %.2lf", buch->preis);
 }
 ///********************************************
 ///Funk.-Name: listeBuchBestandGeordnet
@@ -412,10 +593,20 @@ void listeBuchbestandGeordnet(buch_t *buecher, int anzahl, int ordnungNach)
         return;
     }
 
+
+
     for(i=0; i < anzahl; i++)
     {
-        strcpy((copy+i)->buchNummer, (buecher+i)->buchNummer);
-        strcpy((copy+i)->titel, (buecher+i)->titel);
+      strcpy(((copy+i)->buchNummer), (buecher+i)->buchNummer);
+      (copy+i)->titel = (char*) calloc(strlen((buecher+i)->titel)+1, sizeof(char));
+
+      if((copy+i)->titel == NULL)
+      {
+          fprintf(stderr, "Beim Allokieren von Speicher fuer den titel der Kopie ist ein Fehler aufgetreten.");
+          return;
+      }
+
+      strcpy(((copy+i)->titel),(buecher+i)->titel);
 
         (copy+i)->bestand = (buecher+i)->bestand;
         (copy+i)->preis   = (buecher+i)->preis;
@@ -437,13 +628,11 @@ void listeBuchbestandGeordnet(buch_t *buecher, int anzahl, int ordnungNach)
         break;
     }
 
-    for(i=0; i < anzahl; i++)
+  for(i=0; i < anzahl; i++)
     {
         free((copy+i)->titel);
         free((copy+i));
     }
-
-
 }
 
 
@@ -460,6 +649,8 @@ void listeBuchbestandGeordnet(buch_t *buecher, int anzahl, int ordnungNach)
 void bestellListe(buch_t *buecher, int anzahl)
 {
     size_t i;
+    puts("\n\t|  Buch-Nr.    |            Titel            |       Bestand       |       Preis      |");
+    puts("\t=======================================================================================");
     for(i = 0; i < anzahl; i++)
     {
         if((buecher+i)->bestand < 5)
@@ -512,6 +703,7 @@ void titelFilter(buch_t *buecher, int anzahl, char *suchText)
         if(returnstring != NULL)
             printBuchData(buecher+i);
     }
+
 
 }
 void nummerFilter(buch_t *buecher, int anzahl, char *suchText)
