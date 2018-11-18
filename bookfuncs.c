@@ -25,9 +25,10 @@ int filtermenue()
 
     do
     {
+        system("cls");
         printf("\n\n\tFiltern");
         printf("\n\t=========");
-        printf("\n\tNach was moechten Sie filtern?");
+        printf("\n\n\tNach welchen Kriterien moechten Sie filtern?");
         printf("\n\t(1)Preis");
         printf("\n\t(2)Titel");
         printf("\n\t(3)Buchnummer");
@@ -75,7 +76,7 @@ int filtermenue()
 
     }
     while(ok != 1);
-    return 0;
+    return dummy;
 }
 int menue()
 {
@@ -90,9 +91,9 @@ int menue()
         printf("\n\t===================================================================");
         printf("\n\n\t(1) Neues Buch hinzufuegen");
         printf("\n\t(2) Ein Buch entfernen");
-        printf("\n\t(3) Buchtitel aendern / Buch entnehmen");
-        printf("\n\t(4) Nach Buechern suchen");
-        printf("\n\t(5) Nach bestimmten Kriterien filtern");
+        printf("\n\t(3) Buchtitel aendern");
+        printf("\n\t(4) Nach Buechern suchen / filtern");
+        printf("\n\t(5) Buch entnehmen");
         printf("\n\t(6) Ausgabe aller Buecher");
         printf("\n\t(7) Ausgabe des gesamten Lagerwertes");
         printf("\n\t(8) Ausgabe der Bestelllisten");
@@ -163,7 +164,7 @@ int menue()
     }
     while(ok != 1);
 
-    return 0;
+    return dummy;
 
 }
 
@@ -430,8 +431,95 @@ buch_t *sucheBuch(buch_t *buecher, int n, char *suchText,int titelOderNummer)
 
 int buchZugang(buch_t *buecher, int anzahlAkt)
 {
-   FILE *fp;
+    FILE *fp;
+    char ein[4096];
+    char buchnummer[4096];
+    char titel[4096];
+    double preis=0;
+    int bestand=0;
+    int ok;
+    char dummy;
+    char user;
+    size_t i;
 
+    system("cls");
+    printf("\n\n\tEinlesen eines neuen Buches / neuer Buecher");
+    printf("\n\t=============================================");
+
+    do
+    {
+        printf("\n\n\tMoechten Sie ein neues Buch oder Buecher aus einer Datei einlesen?");
+        printf("\n\t(1)Ein neues Buch einlesen");
+        printf("\n\t(2)Buecher aus CSV Dateien einlesen");
+        printf("\n\n\tIhre Auswahl -> ");
+        user = getch();
+        if(user != '1')
+        {
+            fprintf(stderr, "\n\tDiese Option gibt es nicht!");
+            ok = 0;
+        }
+        else if(user != '2')
+            {
+            fprintf(stderr, "\n\tDiese Option gibt es nicht!");
+            ok = 0;
+            }
+            else
+                ok = 1;
+
+    }while(ok != 1);
+
+    ok = 0;
+
+    switch(user){
+case '1':
+    system("cls");
+    printf("\n\n\tNeues Buch einlesen");
+    printf("\n\t=====================");
+
+    do
+    {
+        printf("\n\n\tBitte geben Sie eine Buchnummer ein --> ");
+        gets(buchnummer);
+        ok = gueltigeBuchNummer(buchnummer);
+        if(ok != 1)
+        {
+            fprintf(stderr, "\n\tDie Buchnummer ist nicht gueltig.");
+            ok = 0;
+        }
+
+    }while(ok != 1);
+
+   do
+   {
+        printf("\n\n\Bitte geben Sie einen Bestand fuer das Buch ein --> ");
+        ok = liesInt();
+
+        if(ok == 0)
+        {
+            fprintf(stderr, "\n\tEingabefehler. Bitte wiederholen Sie ihre Eingabe.");
+            bestand = 0;
+        }
+
+        if(ok <= 0)
+        {
+            fprintf(stderr,"Der Bestand darf nicht kleiner oder gleich 0 sein!");
+            ok = 0;
+        }
+
+        bestand = ok;
+   }while(ok == 0);
+   ok = 0;
+   do
+   {
+       printf("\n\tBitte geben Sie einen Preis fuer das neue Buch ein --> ");
+       ok = sscanf(gets(ein), "%lf%c", &preis, &dummy);
+       if(ok != 1)
+        fprintf(stderr, "\n\tEingabefehler. Bitte wiederholen Sie ihre Eingabe.");
+   }while(ok != 1);
+
+   printf("\n\tBitte geben Sie einen Titel fuer das neue Buch ein --> ");
+    break;
+    }
 }
 void buchEntnahme(buch_t *buecher, int anzahl)
 {
@@ -451,6 +539,12 @@ void buchEntnahme(buch_t *buecher, int anzahl)
         printf("\n\tBitte geben Sie die Buchnummer ein --> ");
         gets(buchnr);
 
+        ok = gueltigeBuchNummer(buchnr);
+    if(ok != 1)
+    {
+        fprintf(stderr, "Sie haben keine gueltige Buchnummer eingegeben!");
+        return;
+    }
         for(i = 0; i < anzahl; i++)
         {
             if(strcmp((buecher+i)->buchNummer, buchnr) == 0)
@@ -466,6 +560,8 @@ void buchEntnahme(buch_t *buecher, int anzahl)
         }
     }
     while(ok != 1);
+
+    ok = 0;
 
     do
     {
@@ -504,14 +600,14 @@ int buchEntfernen(buch_t *buecher, int anzahl, char *buchNummer)
             if(strcmp((buecher+i)->buchNummer, buchNummer) == 0)
             {
                 for(j = i; j < anzahl; j++)
-                    buecher[j] = buecher[j+1]; ///Kopieren der Daten auf neue Position, damit Buch ueberschrieben wird
+                    buecher[j] = buecher[j+1]; ///Kopieren der Daten auf neue Position, damit Buch ueberschrieben wird bzw. geloescht wird
 
-                return 1;
+                return 1; ///Funktion beenden und 1 für erfolgreich zurückgeben
             }
         }
     }
 
-    return 0;
+    return 0; ///Falls nichts passiert ist, wird 0 als nicht geloescht zurückgegeben
 
 }
 
@@ -534,11 +630,16 @@ void aendereTitel(buch_t *buchAdresse)
     return;
 }
 
+
+void printTableHeader()
+{
+    puts("\n\t  Buch-Nr.  |                     Titel                  |       Bestand       |       Preis      ");
+    puts("\t==========================================================================================================");
+}
 void listeBuchbestand(buch_t *buecher, int anzahl)
 {
     size_t i;
-    puts("|  Buch-Nr.    |            Titel            |       Bestand       |       Preis      |");
-    puts("=======================================================================================");
+    printTableHeader();
     for(i = 0; i < anzahl; i++)
     {
         printBuchData(buecher+i);
@@ -557,9 +658,18 @@ void listeBuchbestand(buch_t *buecher, int anzahl)
 ///********************************************
 void printBuchData(buch_t *buch)
 {
-    printf("\t%10s|       %25s          |        %d           |        %.2lf        |\n",(buch->buchNummer), (buch->titel), (buch->bestand), (buch->preis));
+    printf("\t%10s  |     %30s         |        %2d           |        %.2lf        \n",(buch->buchNummer), (buch->titel), (buch->bestand), (buch->preis));
 }
-
+///********************************************
+///Funk.-Name: printBuchList
+///Zweck:      Ausgeben der Daten eines Buches in Listenform
+///********************************************
+///Parameter: buch....Adresse, wo das auszugebende Buch steht
+///********************************************
+///Variablen: -
+///********************************************
+///Return-Wert: -
+///********************************************
 void printBuchList(buch_t *buch)
 {
     printf("\n\tBuch-Nummer: %s", buch->buchNummer);
@@ -597,16 +707,16 @@ void listeBuchbestandGeordnet(buch_t *buecher, int anzahl, int ordnungNach)
 
     for(i=0; i < anzahl; i++)
     {
-      strcpy(((copy+i)->buchNummer), (buecher+i)->buchNummer);
-      (copy+i)->titel = (char*) calloc(strlen((buecher+i)->titel)+1, sizeof(char));
+        strcpy(((copy+i)->buchNummer), (buecher+i)->buchNummer);
+        (copy+i)->titel = (char*) calloc(strlen((buecher+i)->titel)+1, sizeof(char));
 
-      if((copy+i)->titel == NULL)
-      {
-          fprintf(stderr, "Beim Allokieren von Speicher fuer den titel der Kopie ist ein Fehler aufgetreten.");
-          return;
-      }
+        if((copy+i)->titel == NULL)
+        {
+            fprintf(stderr, "Beim Allokieren von Speicher fuer den titel der Kopie ist ein Fehler aufgetreten.");
+            return;
+        }
 
-      strcpy(((copy+i)->titel),(buecher+i)->titel);
+        strcpy(((copy+i)->titel),(buecher+i)->titel);
 
         (copy+i)->bestand = (buecher+i)->bestand;
         (copy+i)->preis   = (buecher+i)->preis;
@@ -628,7 +738,7 @@ void listeBuchbestandGeordnet(buch_t *buecher, int anzahl, int ordnungNach)
         break;
     }
 
-  for(i=0; i < anzahl; i++)
+    for(i=0; i < anzahl; i++)
     {
         free((copy+i)->titel);
         free((copy+i));
@@ -649,8 +759,7 @@ void listeBuchbestandGeordnet(buch_t *buecher, int anzahl, int ordnungNach)
 void bestellListe(buch_t *buecher, int anzahl)
 {
     size_t i;
-    puts("\n\t|  Buch-Nr.    |            Titel            |       Bestand       |       Preis      |");
-    puts("\t=======================================================================================");
+    printTableHeader();
     for(i = 0; i < anzahl; i++)
     {
         if((buecher+i)->bestand < 5)
@@ -724,14 +833,14 @@ void preisFilter(buch_t *buecher, int anzahl, double vergleichsPreis,int mehrOde
     size_t i;
     switch(mehrOderWeniger)
     {
-    case 1:
+    case 0:
         for(i = 0; i < anzahl; i++)
         {
             if((buecher+i)->preis >= vergleichsPreis)
                 printBuchData(buecher+i);
         }
         break;
-    case 2:
+    case 1:
         for(i = 0; i < anzahl; i++)
         {
             if((buecher+i)->preis <= vergleichsPreis)
@@ -752,7 +861,7 @@ void toCSVText(const buch_t* buch, char *csvText)
     sprintf(csvText, "%s; %s; %d; %.2lf", (buch->buchNummer), (buch->titel), (buch->bestand), (buch->preis));
     return;
 }
-/*
+
 void freeData(buch_t *buecher, int anzahl)
 {
     size_t i;
@@ -763,7 +872,7 @@ void freeData(buch_t *buecher, int anzahl)
         free((buecher+i));
     }
 }
-*/
+
 
 int cmpTitel(const void *a, const void *b)
 {

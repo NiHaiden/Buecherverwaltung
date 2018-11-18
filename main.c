@@ -59,8 +59,7 @@ int main(int argc, char *argv[])
 
     ///Variablen fuer die Filter Funktionen
     ///********************************************************************************
-    int preisAngabe = 0,
-        moreOrLess  = 0;
+    double preisAngabe = 0;
 
 
 
@@ -106,13 +105,15 @@ int main(int argc, char *argv[])
             //aendereTitel()
             break;
         case 4:
-            system("cls");
-            printf("\n\n\tNach einem Buch suchen");
-            printf("\n\t========================");
+            system("cls"); ///Leeren des Konsolenfensters fuer bessere Lesbarkeit
+            printf("\n\n\tNach einem Buch suchen / filtern");
+            printf("\n\t==================================");
 
             ///Anzeigen der Auswahl
             printf("\n\n\t(1) Nach Titel suchen");
             printf("\n\t(2) Nach Buchnummer suchen");
+            printf("\n\t(3) Filtern");
+            printf("\n\t(4) Zurueck");
             printf("\n\n\tIhre Auswahl --> ");
             user = getche(); ///Einlesen der Auswahl mittels getch()
 
@@ -130,7 +131,7 @@ int main(int argc, char *argv[])
 
                 if(searchresult != NULL) ///Ist etwas gefunden worden, wird if Block ausgefuehrt
                 {
-                    printf("\n\tDas Buch wurde gefunden!"); ///Ausgabe der Erfolgsmeldung
+                    printf("\n\tDas Buch wurde gefunden!\n\tHier die Daten:\n"); ///Ausgabe der Erfolgsmeldung
                     printBuchList(searchresult); ///Die Buecherdaten werden mittels Funktion in Listenform ausgegeben
                     dummy = getch();   ///Warten auf den User
                 }
@@ -172,31 +173,88 @@ int main(int argc, char *argv[])
                     dummy = getch();  ///Warten auf den User
                 }
                 break;
+            case '3':
+                retfilter = filtermenue();
+
+                switch(retfilter)
+                {
+                ///*********************************************************************************
+                ///Nach Preis filtern
+                ///*********************************************************************************
+                case 1:
+                    system("cls");
+                    printf("\n\n\tFiltern nach Preis - Mehr als");
+                    printf("\n\t===============================");
+                    do
+                    {
+                        printf("\n\n\tBitte geben Sie den gewuenschten Preis ein --> "); ///Aufforderung zum Eingeben des Preises
+                        ok = sscanf(gets(ein), "%lf%c", &preisAngabe, &dummy); ///Einlesen des Preises mittels sscanf und gets
+                        if(ok != 1) ///Falls ein Eingabefehler aufgetreten ist, wird Meldung ausgegeben
+                            fprintf(stderr, "\n\tEingabefehler. Bitte versuchen Sie es noch einmal.");
+                    }
+                    while(ok != 1);
+                    printf("\n\n\tDiese Buecher haben einen Preis groesser als %.2lf Euro:\n", preisAngabe);
+                    printTableHeader(); ///Ausgeben des Tabellen Headers
+                    preisFilter(buecher, buchAnzahl, preisAngabe, 0); ///Aufrufen der Funktion preisFilter um nach gewuenschten Preis zu suchen
+                    dummy = getch();
+                    break;
+                case 2:
+                    system("cls");
+                    do
+                    {
+                        printf("\n\n\tBitte geben Sie den gewuenschten Preis ein --> "); ///Aufforderung zum Eingeben des Preises
+                        ok = sscanf(gets(ein), "%lf%c", &preisAngabe, &dummy); ///Einlesen des Preises mittels sscanf und gets
+                        if(ok != 1) ///Falls ein Eingabefehler aufgetreten ist, wird Meldung ausgegeben
+                            fprintf(stderr, "\n\tEingabefehler. Bitte versuchen Sie es noch einmal!");
+                    }
+                    while(ok != 1);
+                    printf("\n\n\tDiese Buecher haben einen Preis kleiner als %.2lf Euro\n", preisAngabe);
+                    printTableHeader();
+                    preisFilter(buecher, buchAnzahl, preisAngabe, 1);
+                    dummy = getch();
+                    break;
+                ///*********************************************************************************
+                ///Nach Titel filtern
+                ///*********************************************************************************
+                case 3:
+                    system("cls");
+
+                    printf("\n\n\tFiltern nach Titel");
+                    printf("\n\t====================");
+
+                    printf("\n\n\tBitte geben Sie einen Text ein, nach dem Sie filtern wollen --> ");
+                    gets(ein);
+
+                    printf("\n\n\tDiese Buecher wurden gefunden:\n");
+                    titelFilter(buecher, buchAnzahl, ein);
+                    dummy = getch();
+                    break;
+                ///********************************************************************************
+                ///Nach Buchnummer filtern
+                ///********************************************************************************
+                case 4:
+                    system("cls");
+                    printf("\n\n\tFiltern nach Buchnummer");
+                    printf("\n\t=========================");
+                    printf("\n\n\tBitte geben Sie einen Text ein, nach dem Sie filtern wollen --> ");
+                    gets(ein);
+
+                    system("cls");
+                    nummerFilter(buecher, buchAnzahl, ein);
+                    dummy = getch();
+                    break;
+
+                }
+                break;
+
+
+
+
             }
 
 
-
-            break;
         case 5:
-            retfilter = filtermenue();
 
-            switch(retfilter)
-            {
-            case 1:
-                system("cls");
-                printf("\n\n\tFiltern nach Preis - Mehr als");
-                printf("\n\t===============================");
-                do{
-
-                }while(ok != 1);
-                preisFilter(buecher, buchAnzahl, preisAngabe, 0);
-                break;
-            case 2:
-                system("cls");
-                preisFilter(buecher, buchAnzahl, preisAngabe, 1);
-                break;
-
-            }
             break;
 
         case 6:
@@ -233,14 +291,14 @@ int main(int argc, char *argv[])
                 case '1':
                     system("cls");
                     printf("\n\n\tNach Preis sortiert");
-                    printf("\n\t=====================");
+                    printf("\n\t=====================\n");
                     listeBuchbestandGeordnet(buecher, buchAnzahl, 1);
                     dummy = getch();
                     break;
                 case '2':
                     system("cls");
                     printf("\n\n\tNach Titel sortiert");
-                    printf("\n\t=====================");
+                    printf("\n\t=====================\n");
                     listeBuchbestandGeordnet(buecher, buchAnzahl, 2);
                     dummy = getch();
                     break;
@@ -248,7 +306,7 @@ int main(int argc, char *argv[])
                 case '3':
                     system("cls");
                     printf("\n\n\tNach Buchnummer sortiert");
-                    printf("\n\t==========================");
+                    printf("\n\t==========================\n");
                     listeBuchbestandGeordnet(buecher, buchAnzahl, 3);
                     dummy = getch();
                     break;

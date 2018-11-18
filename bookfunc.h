@@ -45,15 +45,16 @@ void bestellListe(buch_t *buecher, int anzahl);
 double lagerWert(buch_t *buecher, int anzahl);
 void titelFilter(buch_t *buecher, int anzahl, char *suchText);
 void nummerFilter(buch_t *buecher, int anzahl, char *suchText);
-void preisFilter(buch_t *buecher, int anzahl, double vergleichsPreis,int mehrOderWeniger);
-int speichereBuecher (char *dateipfad, buch_t *buecher, int anzahl);
-void toCSVText(const buch_t* buch, char *csvText);
-int cmpBuchNr(const void *a, const void *b);
-int cmpPreis(const void *a, const void *b);
-int cmpTitel(const void *a, const void *b);
+void preisFilter(buch_t *buecher, int anzahl, double vergleichsPreis,int mehrOderWeniger);  ///Filtert nach Preisen, welche dem Kriterium entsprechen
+int speichereBuecher (char *dateipfad, buch_t *buecher, int anzahl); ///Speichert Buecher auf eine Datei
+void toCSVText(const buch_t* buch, char *csvText);  ///Wandelt ein Buch in eine CSV-Text Zeile um
+int cmpBuchNr(const void *a, const void *b);  ///CMP Funktion um Buchnummer zu vergleichen --> für Q-Sort
+int cmpPreis(const void *a, const void *b);  ///CMP Funktion um Preis zu vergleichen
+int cmpTitel(const void *a, const void *b); ///CMP Funktion um Titel zu vergleichen --> für QSort
 int menue();   ///Funktion, welche das Menue anzeigt und gewaehlten Menuepunkt zurueckliefert
 void freeData(buch_t *buecher, int anzahl); ///Funktion zum Freigeben aller dynamisch angeforderten Daten
 void help(); ///Funktion zum Anzeigen der Hilfe
 void printBuchData(buch_t *buch); ///Funktion zum Ausgeben der Daten in Tabellenform
-void printBuchList(buch_t *buch); ///Funktion zum Ausgeben der Daten in Listenform
+void printBuchList(buch_t *buch); ///Funktion zum Ausgeben der Daten in ListenfoTrm
+void printTableHeader();
 #endif // BOOKFUNC_H_INCLUDED

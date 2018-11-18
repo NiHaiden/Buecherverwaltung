@@ -92,10 +92,10 @@
 	<strings.h>
 	<unistd.h>
 
-1542494829 source:c:\users\dell\downloads\buecherverwaltung-master\buecherverwaltung-master\bookfuncs.c
+1542543709 source:c:\users\dell\downloads\buecherverwaltung-master\buecherverwaltung-master\bookfuncs.c
 	"bookfunc.h"
 
-1542485757 c:\users\dell\downloads\buecherverwaltung-master\buecherverwaltung-master\bookfunc.h
+1542543689 c:\users\dell\downloads\buecherverwaltung-master\buecherverwaltung-master\bookfunc.h
 	<stdio.h>
 	<stdlib.h>
 	<conio.h>
@@ -104,6 +104,6 @@
 	<strings.h>
 	<unistd.h>
 
-1542494791 source:c:\users\dell\downloads\buecherverwaltung-master\buecherverwaltung-master\main.c
+1542543782 source:c:\users\dell\downloads\buecherverwaltung-master\buecherverwaltung-master\main.c
 	"bookfunc.h"
 
