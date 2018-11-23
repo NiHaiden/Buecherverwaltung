@@ -107,3 +107,48 @@
 1542543782 source:c:\users\dell\downloads\buecherverwaltung-master\buecherverwaltung-master\main.c
 	"bookfunc.h"
 
+1542567899 source:c:\users\niklas\downloads\buecherverwaltung-master\buecherverwaltung-master\main.c
+	"bookfunc.h"
+
+1542567873 c:\users\niklas\downloads\buecherverwaltung-master\buecherverwaltung-master\bookfunc.h
+	<stdio.h>
+	<stdlib.h>
+	<conio.h>
+	<ctype.h>
+	<windows.h>
+	<strings.h>
+	<unistd.h>
+
+1542567946 source:c:\users\niklas\downloads\buecherverwaltung-master\buecherverwaltung-master\bookfuncs.c
+	"bookfunc.h"
+
+1542568570 source:c:\users\dell\downloads\buecherverwaltung\bookfuncs.c
+	"bookfunc.h"
+
+1542567873 c:\users\dell\downloads\buecherverwaltung\bookfunc.h
+	<stdio.h>
+	<stdlib.h>
+	<conio.h>
+	<ctype.h>
+	<windows.h>
+	<strings.h>
+	<unistd.h>
+
+1542567899 source:c:\users\dell\downloads\buecherverwaltung\main.c
+	"bookfunc.h"
+
+1542567899 source:c:\users\dell\downloads\buecherverwaltung\buecherverwaltung\main.c
+	"bookfunc.h"
+
+1542567873 c:\users\dell\downloads\buecherverwaltung\buecherverwaltung\bookfunc.h
+	<stdio.h>
+	<stdlib.h>
+	<conio.h>
+	<ctype.h>
+	<windows.h>
+	<strings.h>
+	<unistd.h>
+
+1542644441 source:c:\users\dell\downloads\buecherverwaltung\buecherverwaltung\bookfuncs.c
+	"bookfunc.h"
+

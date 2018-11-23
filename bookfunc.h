@@ -35,7 +35,7 @@ buch_t *fuegeBuecherFeldHinzu(char *dateipfad, buch_t *feld, int *n, int *maxima
 int erstelleNeuesBuch(char *textzeile, buch_t *buecher, int anzahlAkt);
 int gueltigeBuchNummer(char *text);  ///Diese Funktion ueberprueft den uebergebenen Text auf eine gueltige Buchnummer
 buch_t *sucheBuch(buch_t *buecher, int n, char *suchText,int titelOderNummer);  ///Diese Funktion dient zum Suchen nach einem Buch
-int buchZugang(buch_t *buecher, int anzahlAkt);
+int buchZugang(buch_t *buecher, int anzahlAkt, int *maximal);
 void buchEntnahme(buch_t *buecher, int anzahl);
 int buchEntfernen(buch_t *buecher, int anzahl, char *buchNummer);
 void aendereTitel(buch_t *buchAdresse);
@@ -56,5 +56,7 @@ void freeData(buch_t *buecher, int anzahl); ///Funktion zum Freigeben aller dyna
 void help(); ///Funktion zum Anzeigen der Hilfe
 void printBuchData(buch_t *buch); ///Funktion zum Ausgeben der Daten in Tabellenform
 void printBuchList(buch_t *buch); ///Funktion zum Ausgeben der Daten in ListenfoTrm
+int calcbookPos(buch_t *buecher, int anzahl, char *buchnr);
+int filtermenue();
 void printTableHeader();
 #endif // BOOKFUNC_H_INCLUDED

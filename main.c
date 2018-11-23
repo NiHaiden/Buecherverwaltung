@@ -1,10 +1,10 @@
 #include "bookfunc.h"
 
-/*
+/**
   Name: Niklas Martin Haiden
   Klasse / Katalognr.: 2BHIF / 8
   Aufnahmenummer: 20170023
-  Abgabe-Datum: 5.11.2018
+  Abgabe-Datum: 18.11.2018
   Programmname: POSHUE1_HAIDEN.c
   --------------------------------------------------------
   Beschreibung:
@@ -26,9 +26,9 @@
 
 int main(int argc, char *argv[])
 {
-    FILE *fp;           ///File-Pointer, für das Einlesen der Datei
 
-    char ein[4096];    ///Hilfs-Eingabestring für das Einlesen von bestimmten Werten
+
+    char ein[4096];    ///Hilfs-Eingabestring für das Einlesen von Buchnummern,...
 
     int buchAnzahl = 0; ///Anzahl der eingelesenen Buecher
     int aktFeldSize = 10;  ///Anzahl der aktuellen Buchfelder
@@ -42,18 +42,22 @@ int main(int argc, char *argv[])
 
     int quit = 1;          ///Variable, die auf 0 gesetzt wird, wenn der User aufhoert
 
-    int ok = 0;
+    int ok = 0;     ///Variable die speichert, ob alles ok ist oder nicht
+
+
+
+    int buchpos;    ///Variable um die Buecherposition speichern zu koennen
 
     ///Variablen fuer die Return Werte der Funktionen
     ///********************************************************************************
     int retmenu    = 0,      ///Variable fuer Return-Wert der Funktion menue()
-        retneu     = 0,      ///Variable fuer den Return-Wert der Funktion erstelleNeuesBuch
+
         retgueltig = 0,   ///Variable fuer den Return-Wert der Funktion gueltigeBuchNummer
-        retzugang  = 0,  ///Variable fuer den Return-Wert der Funktion buchZugang
+
         retentf    = 0,  ///Variable fuer den Return-Wert der Funktion buchEntfernen
-        retsave    = 0,  ///Variable fuer den Return-Wert der Funktion speichereBuecher
-        retfilter  = 0, ///Variable fuer den Return-Wert der Funktion filtermenue
-        rettitel   = 0; ///Variable fuer den Return-Wert der Funktion aendereTitel
+
+        retfilter  = 0; ///Variable fuer den Return-Wert der Funktion filtermenue
+
     double lagerwert = 0; ///Variable fuer das Speichern des gesamten Lagerwertes
     ///********************************************************************************
 
@@ -88,21 +92,90 @@ int main(int argc, char *argv[])
         switch(retmenu)
         {
         case 1:
-            // retneu = buchZugang(buecher, buchAnzahl);
-            if(retneu)
+            system("cls");
+            printf("\n\n\tNeues Buch / Buecher hinzufuegen");
+            printf("\n\t==================================");
+            printf("\n\n\t(1)Ein neues Buch hinzufuegen");
+            printf("\n\t(2)Buecher aus csv Datei lesen");
+            printf("\n\n\tIhre Auswahl --> ");
+            user = getch();
+            switch(user)
             {
+            case '1':
+                buchAnzahl+=buchZugang(buecher, buchAnzahl, &aktFeldSize); ///Aufrufen der Funktion und addieren zu buchAnzahl bei Erfolg
+                break;
+            case '2':
+                system("cls");
+                printf("\n\n\tNeue Buecher aus CSV Datei lesen");
+                printf("\n\t==================================");
 
+                printf("\n\n\tBitte geben Sie den Dateinamen ein --> ");
+                gets(ein);
+                buecher = fuegeBuecherFeldHinzu(ein, buecher, &buchAnzahl, &aktFeldSize); ///Aufrufen der Funktion um Feld hinzuzufuegen
+                if(!buecher)
+                {
+                    printf("\n\n\tBeim Anfuegen der Werte ist ein Fehler aufgetreten!");
+                    break;
+                }
             }
+
             break;
         case 2:
-            retentf = buchEntfernen(buecher, buchAnzahl, ein);
-            if(retentf)
-            {
+            system("cls");
+            printf("\n\n\tBuch loeschen");
+            printf("\n\t===============");
+            listeBuchbestand(buecher, buchAnzahl);
 
+            printf("\n\n\tBitte geben Sie die Buchnummer des zu loeschenden Buches ein --> ");
+            gets(ein);
+            ok = gueltigeBuchNummer(ein);
+            if(ok != 1)
+            {
+                fprintf(stderr, "\n\tSie haben keine gueltige Buchnummer eingegeben!\n");
+                break;
+            }
+            retentf = buchEntfernen(buecher, buchAnzahl, ein);
+            switch(retentf)
+            {
+            case 1:
+                printf("\n\n\tDas Buch wurde erfolgreich geloescht!");
+                buchAnzahl--;
+                break;
+            case 0:
+                printf("\n\n\tBuch konnte nicht geloescht werden!");
+                break;
             }
             break;
         case 3:
-            //aendereTitel()
+            system("cls");
+            printf("\n\n\tTitel aendern");
+            printf("\n\t===============");
+
+            printf("\n\n\tVon welchem Buch moechten Sie den Titel aendern? \n\tGeben Sie bitte die Buchnummer ein --> ");
+            gets(ein);
+            ok = 0;
+            if(gueltigeBuchNummer(ein))
+            {
+                buchpos = calcbookPos(buecher, buchAnzahl, ein);
+                ok=1;
+                aendereTitel(buecher+buchpos);
+            }
+            else
+                fprintf(stderr, "\n\tDie Buchnummer ist ungueltig!");
+
+            if(ok == 1)
+            {
+                printf("\n\tDer Titel dieses Buches wurde veraendert!");
+                printf("\n\tNeue Daten:");
+                printBuchList(buecher+buchpos);
+                dummy = getch();
+            }
+            else
+            {
+                fprintf(stderr, "\n\tDas Buch wurde nicht gefunden!");
+                dummy = getch();
+                ok = 0;
+            }
             break;
         case 4:
             system("cls"); ///Leeren des Konsolenfensters fuer bessere Lesbarkeit
@@ -246,15 +319,12 @@ int main(int argc, char *argv[])
 
                 }
                 break;
-
-
-
-
             }
-
+            break;
 
         case 5:
-
+            system("cls");
+            buchEntnahme(buecher, buchAnzahl);
             break;
 
         case 6:
@@ -330,8 +400,35 @@ int main(int argc, char *argv[])
             dummy = getch();
             break;
 
-        case 11:
+        case 9:
+            system("cls");
+            printf("\n\n\tSpeichern von Buecherdaten in Datei");
+            printf("\n\t=====================================");
+
+            printf("\n\n\tBitte geben Sie den Namen der Datei ein (Ohne .csv!) --> "); //
+            gets(ein); ///Einlesen des Dateinamens
+            ok = speichereBuecher(ein, buecher, buchAnzahl); ///Aufrufen der Funktion
+            switch(ok)
+            {
+            case 0:
+                fprintf(stderr, "\n\tDie Datei konnte nicht erstellt werden!");
+                break;
+            case 1:
+                printf("\n\tDatei wurde erfolgreich erstellt und gespeichert.");
+                break;
+            case 2:
+                fprintf(stderr, "\n\tDie Datei konnte nicht geoeffnet werden!");
+                break;
+            case 3:
+                printf("\n\tDatei wurde erfolgreich ueberschrieben.");
+                break;
+            }
+            dummy = getch();
+            break;
+
+        case 10:
             printf("\n\tDanke, dass Sie da waren.\n\tAchtung! Alle nichtgespeicherten Daten gehen verloren!");
+            freeData(buecher, buchAnzahl); ///Freigeben aller angeforderten Daten
             return (EXIT_SUCCESS);
             break;
 
@@ -339,10 +436,5 @@ int main(int argc, char *argv[])
 
     }
     while(quit);
-
-
-
-
-    free(buecher);
     return dummy;
 }
